@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5D17C7E1-9311-4EB6-A683-F9BB40046041}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>HC1_Assembler_8Bit_16Bit</RootNamespace>
+    <AssemblyName>HC1_Assembler_Linker</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Costura, Version=3.1.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d">
+      <HintPath>..\packages\Costura.Fody.3.1.2\lib\net46\Costura.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assembler\Assembler.cs" />
+    <Compile Include="Assembler\AssemblerDirectives.cs" />
+    <Compile Include="Assembler\AssemblerHelper.cs" />
+    <Compile Include="Assembler\AssemblyData.cs" />
+    <Compile Include="Assembler\AssemblyLine.cs" />
+    <Compile Include="Assembler\TextParser.cs" />
+    <Compile Include="Assembler\UnicodeAssembly.cs" />
+    <Compile Include="Elf\ElfFile.cs" />
+    <Compile Include="Elf\ElfHeader.cs" />
+    <Compile Include="Elf\ElfHelper.cs" />
+    <Compile Include="Elf\ElfLoader.cs" />
+    <Compile Include="Elf\ElfSectionAttribute.cs" />
+    <Compile Include="Elf\ElfSectionConstructorAttribute.cs" />
+    <Compile Include="Elf\SectionHeader.cs" />
+    <Compile Include="Elf\Sections\RelocationText.cs" />
+    <Compile Include="Elf\Sections\SectionHeaderStringTable.cs" />
+    <Compile Include="Elf\Sections\StringTable.cs" />
+    <Compile Include="Elf\Sections\SymbolTable.cs" />
+    <Compile Include="Elf\Sections\TextSection.cs" />
+    <Compile Include="Emulator\AssemblyBuilder.cs" />
+    <Compile Include="Emulator\Emulator.cs" />
+    <Compile Include="Emulator\EmulatorContext.cs" />
+    <Compile Include="Emulator\EmulatorHelper.cs" />
+    <Compile Include="Emulator\Instruction.cs" />
+    <Compile Include="Emulator\Interfaces\IAssemblyBuilder.cs" />
+    <Compile Include="Emulator\Interfaces\IEmulatable.cs" />
+    <Compile Include="Emulator\Interfaces\IInstruction.cs" />
+    <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Handler\ExceptionHandler.cs" />
+    <Compile Include="Handler\WarningHandler.cs" />
+    <Compile Include="Helpers\Contract.cs" />
+    <Compile Include="Helpers\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Helpers\Extensions\ListExtensions.cs" />
+    <Compile Include="Helpers\Extensions\StringExtensions.cs" />
+    <Compile Include="Interfaces\IAssemblyLine.cs" />
+    <Compile Include="Interfaces\IElfSection.cs" />
+    <Compile Include="Interfaces\ILinkageInformationProvider.cs" />
+    <Compile Include="Interfaces\ILinker.cs" />
+    <Compile Include="Interfaces\IMappingRequester.cs" />
+    <Compile Include="Interfaces\IModuleLoader.cs" />
+    <Compile Include="Interfaces\IOperation.cs" />
+    <Compile Include="Linker\ElfFileContainer.cs" />
+    <Compile Include="Linker\ElfHeaderLinkageInfo.cs" />
+    <Compile Include="Linker\ElfSectionPair.cs" />
+    <Compile Include="Linker\Linker.cs" />
+    <Compile Include="Linker\LinkerHelper.cs" />
+    <Compile Include="Linker\RecreatedSymbolLinkageInfo.cs" />
+    <Compile Include="Operations\Op16D.cs" />
+    <Compile Include="Operations\Op16R.cs" />
+    <Compile Include="Operations\Op16Ri.cs" />
+    <Compile Include="Operations\Op16RPcI.cs" />
+    <Compile Include="Operations\Op16Rr.cs" />
+    <Compile Include="Operations\Op16S.cs" />
+    <Compile Include="Operations\Operation16BitBase.cs" />
+    <Compile Include="Operations\Operation8BitBase.cs" />
+    <Compile Include="Operations\OperationBase.cs" />
+    <Compile Include="Operations\OperationRegister.cs" />
+    <Compile Include="Operations\OpIo.cs" />
+    <Compile Include="Operations\OpJ.cs" />
+    <Compile Include="Operations\OpR.cs" />
+    <Compile Include="Operations\OpRr.cs" />
+    <Compile Include="Program\CommandRegister.cs" />
+    <Compile Include="Program\Commands\AssemblerCommands\AssembleAndLinkCommand.cs" />
+    <Compile Include="Program\Commands\AssemblerCommands\AssembleCommand.cs" />
+    <Compile Include="Program\Commands\AssemblerCommands\HelpCommand.cs" />
+    <Compile Include="Program\Commands\AssemblerCommands\LinkCommand.cs" />
+    <Compile Include="Program\Commands\AssemblerCommands\SymboltableCommand.cs" />
+    <Compile Include="Program\Commands\AssemblerCommands\UnicodeCommand.cs" />
+    <Compile Include="Program\Commands\AssemblerCommands\VhdlCommand.cs" />
+    <Compile Include="Program\Commands\BoxedCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\BreakpointCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\ExecuteProgramCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\HelpCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\SessionCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\SetRegisterValueCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\ShowAssemblyCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\ShowMemoryValuesCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\ShowPcCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\ShowRegisterValuesCommand.cs" />
+    <Compile Include="Program\Commands\EmulatorCommands\StepCommand.cs" />
+    <Compile Include="Program\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\BinaryParameter.cs" />
+    <Compile Include="Shared\HalfParameterInfo.cs" />
+    <Compile Include="Shared\ParameterInfo.cs" />
+    <Compile Include="Shared\RawParameter.cs" />
+    <Compile Include="Shared\Symbol.cs" />
+    <Compile Include="Shared\SymbolLinkageInfo.cs" />
+    <Compile Include="SystemHalf\Half.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleArgumentParser\ConsoleArgumentParser.csproj">
+      <Project>{1c4d98af-f02c-4ce4-b73d-d7b1a5a9bc3b}</Project>
+      <Name>ConsoleArgumentParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.3.2.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.2.4\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.3.1.2\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.3.1.2\build\Costura.Fody.targets'))" />
+  </Target>
+  <Import Project="..\packages\Fody.3.2.4\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.4\build\Fody.targets')" />
+  <Import Project="..\packages\Costura.Fody.3.1.2\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.3.1.2\build\Costura.Fody.targets')" />
+</Project>

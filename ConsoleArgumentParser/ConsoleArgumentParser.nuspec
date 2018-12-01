@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ConsoleArgumentParser</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Timschu</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/Timschuu/ConsoleArgumentParser</licenseUrl>
+    <projectUrl>https://github.com/Timschuu/ConsoleArgumentParser</projectUrl>
+    <iconUrl>https://github.com/Timschuu/ConsoleArgumentParser</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>a simple console argument command parser</description>
+    <releaseNotes>First Release</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags></tags>
+  </metadata>
+</package>

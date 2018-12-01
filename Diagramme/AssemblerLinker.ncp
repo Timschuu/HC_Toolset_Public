@@ -1,0 +1,254 @@
+<Project>
+  <Name>AssemblerLinker</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Operations</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>OperationBase</Name>
+        <Access>Public</Access>
+        <Location left="570" top="21" />
+        <Size width="233" height="155" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public List&lt;ParameterInfo&gt; ParameterList</Member>
+        <Member type="Field">public string Mnemonic</Member>
+        <Member type="Field">int _op</Member>
+        <Member type="Field">public byte Opcode</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Operation8BitBase</Name>
+        <Access>Public</Access>
+        <Location left="218" top="256" />
+        <Size width="296" height="109" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">protected static List&lt;byte&gt; ToBinaryInstruction(uint instruction)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Operation16BitBase</Name>
+        <Access>Public</Access>
+        <Location left="917" top="256" />
+        <Size width="296" height="109" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">protected static List&lt;byte&gt; ToBinaryInstruction(uint instruction)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IOperation</Name>
+        <Access>Public</Access>
+        <Location left="589" top="256" />
+        <Size width="250" height="166" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string Mnemonic { get; set; }</Member>
+        <Member type="Property">byte Opcode { get; set; }</Member>
+        <Member type="Property">List&lt;ParameterInfo&gt; ParameterList { get; set; }</Member>
+        <Member type="Method">uint ToAssembeldInstruction(IEnumerable&lt;Symbol&gt; symTab, IEnumerable&lt;RawParameter&gt; parameters, int currentline, string file)</Member>
+        <Member type="Method">List&lt;byte&gt; ToBinaryInstruction(IEnumerable&lt;Symbol&gt; symTab, IEnumerable&lt;RawParameter&gt; parameters, int currentline, string file)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpIo</Name>
+        <Access>Public</Access>
+        <Location left="21" top="520" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 0</Member>
+        <Member type="Property">public int DataSubst { get; }</Member>
+        <Member type="Constructor">public OpIo(int dataSubst)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpJ</Name>
+        <Access>Public</Access>
+        <Location left="218" top="520" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 1</Member>
+        <Member type="Constructor">public OpJ()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpR</Name>
+        <Access>Public</Access>
+        <Location left="406" top="520" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 1</Member>
+        <Member type="Constructor">public OpR()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpRr</Name>
+        <Access>Public</Access>
+        <Location left="589" top="520" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 1</Member>
+        <Member type="Constructor">public OpRr()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILinkageInformationProvider</Name>
+        <Access>Public</Access>
+        <Location left="1404" top="256" />
+        <Size width="422" height="109" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">int AdjustSymbol(IOperation operation, int currentaddress, int symbolvalue)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>Op16D</Name>
+        <Access>Public</Access>
+        <Location left="774" top="520" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 1</Member>
+        <Member type="Constructor">public Op16D()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Op16R</Name>
+        <Access>Public</Access>
+        <Location left="961" top="520" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 1</Member>
+        <Member type="Constructor">public Op16R()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Op16Ri</Name>
+        <Access>Public</Access>
+        <Location left="1142" top="520" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 2</Member>
+        <Member type="Constructor">public Op16Ri()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Op16Rr</Name>
+        <Access>Public</Access>
+        <Location left="1332" top="520" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 2</Member>
+        <Member type="Constructor">public Op16Rr()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Op16RPcI</Name>
+        <Access>Public</Access>
+        <Location left="1423" top="724" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 2</Member>
+        <Member type="Constructor">public Op16RPcI()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Op16S</Name>
+        <Access>Public</Access>
+        <Location left="1526" top="520" />
+        <Size width="162" height="156" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const int Parametercount = 2</Member>
+        <Member type="Constructor">public Op16S()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="4" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="5" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="6" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="7" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="9" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="9" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="10" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="10" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="11" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="11" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="13" second="11">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="13" second="8">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="14" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="14" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="14" second="8">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="12" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="12" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
