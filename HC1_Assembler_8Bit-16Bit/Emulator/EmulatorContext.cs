@@ -24,8 +24,9 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
         private readonly List<byte> _program;
         private readonly int _instructionsize;
         private readonly List<IOperation> _operations;
+        private readonly Dictionary<byte, IOperation> _operationsDictionary = new Dictionary<byte, IOperation>();
+        private readonly bool _distinctOperations;
         private int _programsize;
-        private bool _distinctOperations;
         
         public EmulatorContext(int instructionsize, List<byte> program)
         {
@@ -38,7 +39,17 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
             _breakpoints = new Dictionary<int, bool>();
             _operations = OperationRegister.GetOperations(_instructionsize);
             _distinctOperations = CheckOpCodeDistinction();
+            if (_distinctOperations)
+            {
+                _operationsDictionary = CreateOperationDictionary();
+            }
             LoadProgramIntoMemory();
+        }
+
+        private Dictionary<byte, IOperation> CreateOperationDictionary()
+        {
+            Dictionary<byte, IOperation> dic = _operations.ToDictionary(o => o.Opcode);
+            return dic;
         }
         
         private int[] InitializeRegisters()
@@ -54,7 +65,7 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
             }
         }
 
-        public bool CheckOpCodeDistinction() => _operations.Distinct().Count() == _operations.Count;
+        private bool CheckOpCodeDistinction() => _operations.Distinct().Count() == _operations.Count;
 
 
         private int[] InitializeMemory()
@@ -158,11 +169,11 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
 
         private IOperation GetOperationFromInstruction(int instruction)
         {
-            int opcode = LinkerHelper.GetInstructionOpCode(instruction, _instructionsize);
-
-            if (_distinctOperations)
+            byte opcode = (byte)LinkerHelper.GetInstructionOpCode(instruction, _instructionsize);
+            
+            if (_distinctOperations && _operationsDictionary.ContainsKey(opcode))
             {
-                return _operations.Find(o => o.Opcode == opcode);
+                return _operationsDictionary[opcode];
             }
             
             List<IOperation> foundOperations = _operations.Where(o => o.Opcode == opcode).ToList();
