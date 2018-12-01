@@ -23,8 +23,9 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
         private readonly int[] _memory;
         private readonly List<byte> _program;
         private readonly int _instructionsize;
-        private readonly List<IInstruction> _assembly;
+        private readonly List<IOperation> _operations;
         private int _programsize;
+        private bool _distinctOperations;
         
         public EmulatorContext(int instructionsize, List<byte> program)
         {
@@ -35,16 +36,9 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
             _program = program;
             Stepwidth = 1;
             _breakpoints = new Dictionary<int, bool>();
+            _operations = OperationRegister.GetOperations(_instructionsize);
+            _distinctOperations = CheckOpCodeDistinction();
             LoadProgramIntoMemory();
-            _assembly = BuildAssembly().ToList();
-        }
-
-        private IEnumerable<IInstruction> BuildAssembly()
-        {
-            IAssemblyBuilder assemblyBuilder = new AssemblyBuilder();
-            int[] memcopy = new int[_programsize];
-            Array.Copy(_memory, 0, memcopy, 0, _programsize);
-            return assemblyBuilder.Build(memcopy, _instructionsize, OperationRegister.GetOperations(_instructionsize));
         }
         
         private int[] InitializeRegisters()
@@ -59,6 +53,9 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
                     throw new NotImplementedException();
             }
         }
+
+        public bool CheckOpCodeDistinction() => _operations.Distinct().Count() == _operations.Count;
+
 
         private int[] InitializeMemory()
         {
@@ -122,7 +119,7 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
         
         public bool EmulateNext(bool output)
         {
-            if (ProgramCounter >= _programsize)
+            if (ProgramCounter > _programsize)
             {
                 Console.WriteLine("The Program ended.");
                 return false;
@@ -135,19 +132,19 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
                 return false;
             }
             
-            foreach (var key in _breakpoints.Keys.ToList())
+            foreach (var key in _breakpoints.Keys)
             {
                 _breakpoints[key] = false;
             }
             
             int instruction = GetInstructionFromMemory();
-            IOperation operation = LinkerHelper.GetOperationFromInstruction(instruction, _instructionsize);
+            IOperation operation = GetOperationFromInstruction(instruction);
             if (!(operation is IEmulatable emulatable))
             {
                 throw new NotImplementedException();
             }
 
-            List<int> arguments = emulatable.GetArgumentsFromInstruction(instruction).ToList();
+            int[] arguments = emulatable.GetArgumentsFromInstruction(instruction);
             emulatable.Emulate(ref Emulator.GetEmulatorContext(), arguments);
             ProgramCounter += Stepwidth;
 
@@ -159,13 +156,41 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
             return true;
         }
 
-        public void WriteAssemblyToConsole()
+        private IOperation GetOperationFromInstruction(int instruction)
         {
-            foreach (IInstruction instruction in _assembly)
-            {  
-                Console.WriteLine($"{(instruction.Line + ":").PadRight(4, ' ')} {instruction.Operation.Mnemonic.PadRight(6, ' ')}" +
-                                  $" {EmulatorHelper.GetPaddedArgumentString(instruction.Arguments, 4)}");
+            int opcode = LinkerHelper.GetInstructionOpCode(instruction, _instructionsize);
+
+            if (_distinctOperations)
+            {
+                return _operations.Find(o => o.Opcode == opcode);
             }
+            
+            List<IOperation> foundOperations = _operations.Where(o => o.Opcode == opcode).ToList();
+
+            if (foundOperations.Count <= 1)
+            {
+                return foundOperations.FirstOrDefault();
+            }
+            
+            int decidingParameter = instruction & 0x1F;
+            IOperation operation;
+            switch (decidingParameter)
+            {
+                case 0:
+                case 1:
+                    operation = foundOperations.FirstOrDefault(o => o is OpIo opIo && opIo.DataSubst == decidingParameter);
+                    break;
+                default:
+                    operation = foundOperations.FirstOrDefault(o => !(o is OpIo));
+                    break;
+            }
+
+            if (operation == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return operation;
         }
 
         public void WriteRegisterValuesToConsole()

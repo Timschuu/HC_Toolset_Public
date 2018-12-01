@@ -66,10 +66,9 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
             return symbolvalue & 0x000000FF;
         }
 
-        public void Emulate(ref EmulatorContext emulatorContext, IEnumerable<int> args)
+        public void Emulate(ref EmulatorContext emulatorContext, int[] args)
         {
-            List<int> arguments = args.ToList();
-            if (arguments.Count != Parametercount)
+            if (args.Length != Parametercount)
             {
                 throw new InvalidOperationException();
             }
@@ -80,20 +79,20 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
                 
                 case 23:
                     //LUI
-                    emulatorContext.SetRegisterValue(22 + arguments[0], arguments[1] << 8);
+                    emulatorContext.SetRegisterValue(22 + args[0], args[1] << 8);
                     break;
                 case 24:
                     //LLI
-                    emulatorContext.SetRegisterValue(22 + arguments[0], emulatorContext.GetRegisterValue(22 + arguments[0]) | arguments[1]);
+                    emulatorContext.SetRegisterValue(22 + args[0], emulatorContext.GetRegisterValue(22 + args[0]) | args[1]);
                     break;
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        public IEnumerable<int> GetArgumentsFromInstruction(int instruction)
+        public int[] GetArgumentsFromInstruction(int instruction)
         {
-            return new List<int>
+            return new []
             {
                 (instruction & 0x0300) >> 8,
                 instruction & 0x00FF

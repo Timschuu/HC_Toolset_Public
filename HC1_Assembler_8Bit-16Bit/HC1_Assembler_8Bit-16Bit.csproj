@@ -69,14 +69,10 @@
     <Compile Include="Elf\Sections\StringTable.cs" />
     <Compile Include="Elf\Sections\SymbolTable.cs" />
     <Compile Include="Elf\Sections\TextSection.cs" />
-    <Compile Include="Emulator\AssemblyBuilder.cs" />
     <Compile Include="Emulator\Emulator.cs" />
     <Compile Include="Emulator\EmulatorContext.cs" />
     <Compile Include="Emulator\EmulatorHelper.cs" />
-    <Compile Include="Emulator\Instruction.cs" />
-    <Compile Include="Emulator\Interfaces\IAssemblyBuilder.cs" />
     <Compile Include="Emulator\Interfaces\IEmulatable.cs" />
-    <Compile Include="Emulator\Interfaces\IInstruction.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Handler\ExceptionHandler.cs" />
     <Compile Include="Handler\WarningHandler.cs" />
@@ -125,7 +121,6 @@
     <Compile Include="Program\Commands\EmulatorCommands\HelpCommand.cs" />
     <Compile Include="Program\Commands\EmulatorCommands\SessionCommand.cs" />
     <Compile Include="Program\Commands\EmulatorCommands\SetRegisterValueCommand.cs" />
-    <Compile Include="Program\Commands\EmulatorCommands\ShowAssemblyCommand.cs" />
     <Compile Include="Program\Commands\EmulatorCommands\ShowMemoryValuesCommand.cs" />
     <Compile Include="Program\Commands\EmulatorCommands\ShowPcCommand.cs" />
     <Compile Include="Program\Commands\EmulatorCommands\ShowRegisterValuesCommand.cs" />

@@ -30,7 +30,6 @@ namespace HC1_Assembler_8Bit_16Bit.Program
             yield return new CommandType(typeof(ExecuteProgramCommand), "-exec [--to pc] \t Executes the entire program [until the given programcounter is reached].");
             yield return new CommandType(typeof(BreakpointCommand), "-break [--add pc / --remove pc / --clear / --show] \n\t\t\t Lets you control your breakpoints.");
             yield return new CommandType(typeof(ShowPcCommand), "-pc \t\t\t Displays the current programcounter.");
-            yield return new CommandType(typeof(ShowAssemblyCommand), "-show \t\t\t Shows the current assembly.");
         }
     }
 }

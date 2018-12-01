@@ -40,10 +40,9 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
             return ToBinaryInstruction(instruction);
         }
 
-        public void Emulate(ref EmulatorContext emulatorContext, IEnumerable<int> args)
+        public void Emulate(ref EmulatorContext emulatorContext, int[] args)
         {
-            List<int> arguments = args.ToList();
-            if (arguments.Count != Parametercount)
+            if (args.Length != Parametercount)
             {
                 throw new InvalidOperationException();
             }
@@ -52,16 +51,16 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
             {
                 case 13:
                     //NOT
-                    emulatorContext.SetRegisterValue(arguments[0], ~emulatorContext.GetRegisterValue(arguments[0]));
+                    emulatorContext.SetRegisterValue(args[0], ~emulatorContext.GetRegisterValue(args[0]));
                     break;
                 default:
                     throw new NotImplementedException();  
             }
         }
 
-        public IEnumerable<int> GetArgumentsFromInstruction(int instruction)
+        public int[] GetArgumentsFromInstruction(int instruction)
         {
-            return new List<int>
+            return new []
             {
                 instruction & 0x3FF
             };

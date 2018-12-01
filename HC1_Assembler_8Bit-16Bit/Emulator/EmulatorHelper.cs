@@ -10,11 +10,5 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
             string buf = arguments.Aggregate("", (current, arg) => current + (arg + " "));
             return buf.Trim();
         }
-        
-        public static string GetPaddedArgumentString(IEnumerable<int> arguments, int padding)
-        {
-            string buf = arguments.Aggregate("", (current, arg) => current + arg.ToString().PadRight(padding) + " ");
-            return buf.Trim();
-        }
     }
 }

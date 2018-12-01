@@ -44,10 +44,9 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
         }
 
 
-        public virtual void Emulate(ref EmulatorContext emulatorContext, IEnumerable<int> args)
+        public virtual void Emulate(ref EmulatorContext emulatorContext, int[] args)
         {
-            List<int> arguments = args.ToList();
-            if (arguments.Count != Parametercount)
+            if (args.Length != Parametercount)
             {
                 throw new InvalidOperationException();
             }
@@ -56,39 +55,39 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
             {
                 case 9:
                     //ADDI
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) + arguments[1]);
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) + args[1]);
                     break;
                 case 10:
                     //SUBI
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) - arguments[1]);
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) - args[1]);
                     break;
                 case 11:
                     //MULI
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) * arguments[1]);
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) * args[1]);
                     break;
                 case 12:
                     //DIVI
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) / arguments[1]);
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) / args[1]);
                     break;
                 case 18:
                     //SLOI
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) << arguments[1]);
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) << args[1]);
                     break;
                 case 19:
                     //SARI
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) >> arguments[1]);
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) >> args[1]);
                     break;
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        public IEnumerable<int> GetArgumentsFromInstruction(int instruction)
+        public int[] GetArgumentsFromInstruction(int instruction)
         {
-            return new List<int>
+            return new []
             {
                 (instruction & 0x03E0) >> 5,
-                instruction & 0x001F
+                (instruction & 0x001F) > 15 ? -((~instruction & 0x001F) + 1): instruction & 0x001F
             };
         }
     }

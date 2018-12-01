@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using HC1_Assembler_8Bit_16Bit.Emulator;
 using HC1_Assembler_8Bit_16Bit.Interfaces;
 using HC1_Assembler_8Bit_16Bit.Shared;
@@ -24,10 +23,9 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
             return symbolvalue - currentaddress;
         }
 
-        public override void Emulate(ref EmulatorContext emulatorContext, IEnumerable<int> args)
+        public override void Emulate(ref EmulatorContext emulatorContext, int[] args)
         {
-            List<int> arguments = args.ToList();
-            if (arguments.Count != Parametercount)
+            if (args.Length != Parametercount)
             {
                 throw new InvalidOperationException();
             }
@@ -35,19 +33,19 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
             switch (Opcode)
             {
                 case 14://JLI
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.ProgramCounter);
-                    emulatorContext.ProgramCounter += arguments[1] - emulatorContext.Stepwidth;
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.ProgramCounter);
+                    emulatorContext.ProgramCounter += args[1] - emulatorContext.Stepwidth;
                     break;
                 case 16://BZ
-                    if (emulatorContext.GetRegisterValue(arguments[0]) == 0)
+                    if (emulatorContext.GetRegisterValue(args[0]) == 0)
                     {
-                        emulatorContext.ProgramCounter += arguments[1] - emulatorContext.Stepwidth;
+                        emulatorContext.ProgramCounter += args[1] - emulatorContext.Stepwidth;
                     }
                     break;
                 case 17://BPOS
-                    if (emulatorContext.GetRegisterValue(arguments[0]) > 0)
+                    if (emulatorContext.GetRegisterValue(args[0]) > 0)
                     {
-                        emulatorContext.ProgramCounter += arguments[1] - emulatorContext.Stepwidth;
+                        emulatorContext.ProgramCounter += args[1] - emulatorContext.Stepwidth;
                     }
                     break;
                 default:

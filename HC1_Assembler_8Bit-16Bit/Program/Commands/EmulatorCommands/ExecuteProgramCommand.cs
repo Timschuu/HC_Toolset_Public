@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using ConsoleArgumentParser;
 using HC1_Assembler_8Bit_16Bit.Emulator;
@@ -33,9 +35,16 @@ namespace HC1_Assembler_8Bit_16Bit.Program.Commands.EmulatorCommands
             EmulatorContext emulatorContext = Emulator.Emulator.GetEmulatorContext();
             Contract.AssertNotNull(emulatorContext, nameof(emulatorContext));
 
+            int counter = 0;
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            stopwatch.Start();
             if (_toProgramCounter == null)
             {
-                while (emulatorContext.EmulateNext(false)) {}
+                while (emulatorContext.EmulateNext(false))
+                {
+                    counter++;
+                }
+                stopwatch.Stop();
             }
             else
             {
@@ -47,6 +56,8 @@ namespace HC1_Assembler_8Bit_16Bit.Program.Commands.EmulatorCommands
                     }
                 }
             }
+
+            Console.WriteLine($"Executed {counter} instructions in {stopwatch.Elapsed}.");
             
         }
 

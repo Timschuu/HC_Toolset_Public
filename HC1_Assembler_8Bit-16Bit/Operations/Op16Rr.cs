@@ -42,10 +42,9 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
             return ToBinaryInstruction(instruction);
         }
 
-        public void Emulate(ref EmulatorContext emulatorContext, IEnumerable<int> args)
+        public void Emulate(ref EmulatorContext emulatorContext, int[] args)
         {
-            List<int> arguments = args.ToList();
-            if (arguments.Count != Parametercount)
+            if (args.Length != Parametercount)
             {
                 throw new InvalidOperationException();
             }
@@ -53,53 +52,53 @@ namespace HC1_Assembler_8Bit_16Bit.Operations
             switch (Opcode)
             {
                 case 0://LOAD
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetMemoryValue(emulatorContext.GetRegisterValue(arguments[1])));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetMemoryValue(emulatorContext.GetRegisterValue(args[1])));
                     break;
                 case 1://STORE
-                    emulatorContext.SetMemoryValue(emulatorContext.GetRegisterValue(arguments[1]), emulatorContext.GetRegisterValue(arguments[0]));
+                    emulatorContext.SetMemoryValue(emulatorContext.GetRegisterValue(args[1]), emulatorContext.GetRegisterValue(args[0]));
                     break;
                 case 2://ADD
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) + emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) + emulatorContext.GetRegisterValue(args[1]));
                     break;
                 case 3://SUB
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) - emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) - emulatorContext.GetRegisterValue(args[1]));
                     break;
                 case 4://MUL
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) * emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) * emulatorContext.GetRegisterValue(args[1]));
                     break;
                 case 5://DIV
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) / emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) / emulatorContext.GetRegisterValue(args[1]));
                     break;
                 case 6://MOD
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) % emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) % emulatorContext.GetRegisterValue(args[1]));
                     break;
                 case 7://AND
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) & emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) & emulatorContext.GetRegisterValue(args[1]));
                     break;
                 case 8://OR
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) | emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) | emulatorContext.GetRegisterValue(args[1]));
                     break;
                 case 15://JL
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.ProgramCounter);
-                    emulatorContext.ProgramCounter = emulatorContext.GetRegisterValue(arguments[1]) - emulatorContext.Stepwidth;
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.ProgramCounter);
+                    emulatorContext.ProgramCounter = emulatorContext.GetRegisterValue(args[1]) - emulatorContext.Stepwidth;
                     break;
                 case 20://SLO
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) << emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) << emulatorContext.GetRegisterValue(args[1]));
                     break;
                 case 21://SAR
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[0]) >> emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[0]) >> emulatorContext.GetRegisterValue(args[1]));
                     break;
                 case 22://MOV
-                    emulatorContext.SetRegisterValue(arguments[0], emulatorContext.GetRegisterValue(arguments[1]));
+                    emulatorContext.SetRegisterValue(args[0], emulatorContext.GetRegisterValue(args[1]));
                     break;
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        public IEnumerable<int> GetArgumentsFromInstruction(int instruction)
+        public int[] GetArgumentsFromInstruction(int instruction)
         {
-            return new List<int>
+            return new []
             {
                 (instruction & 0x03E0) >> 5,
                 instruction & 0x001F
