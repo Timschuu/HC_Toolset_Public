@@ -65,8 +65,7 @@ namespace HC1_Assembler_8Bit_16Bit.Emulator
             }
         }
 
-        private bool CheckOpCodeDistinction() => _operations.Distinct().Count() == _operations.Count;
-
+        private bool CheckOpCodeDistinction() => _operations.Select(o => o.Opcode).Distinct().Count() == _operations.Count;
 
         private int[] InitializeMemory()
         {
